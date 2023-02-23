@@ -7,6 +7,12 @@ import it.epicodealessia.adapter.DataSource;
 import it.epicodealessia.adapter.Info;
 import it.epicodealessia.adapter.InfoAdapter;
 import it.epicodealessia.adapter.UserData;
+import it.epicodealessia.chain_of_responsibility.Capitano;
+import it.epicodealessia.chain_of_responsibility.Colonnello;
+import it.epicodealessia.chain_of_responsibility.Generale;
+import it.epicodealessia.chain_of_responsibility.Maggiore;
+import it.epicodealessia.chain_of_responsibility.Tenente;
+import it.epicodealessia.chain_of_responsibility.Ufficiale;
 import it.epicodealessia.composite.Autore;
 import it.epicodealessia.composite.Libro;
 import it.epicodealessia.composite.Sezione;
@@ -22,6 +28,11 @@ public class Main {
 		
 		System.out.println("Design Pattern: Composite");
 		composite();
+		
+		System.out.println("------------------------");
+		
+		System.out.println("Design Pattern: Chain of Responsibility");
+		chain();
 	}
 	
 	public static void adapter() {
@@ -58,9 +69,21 @@ public class Main {
 		
 		Libro l1 = new Libro(autori, 15, sezioni);
 		
-		//ss1.stampa();
-		//s1.stampa();
+		ss1.stampa();
+		s1.stampa();
 		l1.stampa();
+	}
+	
+	public static void chain() {
+		Ufficiale gerarchia = new Capitano(new Maggiore(new Tenente(new Colonnello(new Generale(null)))));
+		
+		int importo = 2900;
+		
+		while(gerarchia.getStipendio() < importo) {
+			gerarchia = gerarchia.getResponsabile();
+		}
+		
+		System.out.println("L'ufficiale che percepisce almeno €" + importo + " è il " + gerarchia.getClass().getSimpleName() + " (stipendio €" + gerarchia.getStipendio() + ")");
 	}
 	
 }
